@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, List, ListItem, Text, InputGroup, Input, Button, Icon, Left, Body, Right } from 'native-base';
+import { Container, Header, Content, List, ListItem, Text, InputGroup, Input, Button, Icon, Left, Body, Right, CheckBox } from 'native-base';
 export default class App extends Component {
   constructor() {
     super();
@@ -17,22 +17,48 @@ export default class App extends Component {
   insertText = () => {
     const kata = this.state.field;
     const data_kata = this.state.data;
-    data_kata.push(kata);
+    const objek = {};
+    objek.name = kata;
+    objek.status = false;
+    data_kata.push(objek);
+
     this.setState({
       data: data_kata,
       field: "",
     });
   }
 
-  deleteText = (text) => {
-    const data_kata2 = this.state.data;
-    while (data_kata2.indexOf(text) !== -1) {
-      data_kata2.splice(data_kata2.indexOf(text), 1);
-    }
+  deleteText = (name) => {
+    const pilihan = this.search(name, this.state.data);
+    this.state.data.splice(pilihan, 1);
     this.setState({
-      data: data_kata2,
-      field: "",
+      data: this.state.data,
     });
+  }
+
+  updateText = (name) => {
+
+    const pilihan = this.search(name, this.state.data);
+    const aray = this.state.data;
+
+    if (aray[pilihan].status == true) {
+      aray[pilihan].status = false;
+    } else {
+      aray[pilihan].status = true;
+    }
+
+    this.setState({
+      data: aray,
+    });
+
+  }
+
+  search(nameKey, myArray) {
+    for (let i = 0; i < myArray.length; i++) {
+      if (myArray[i].name === nameKey) {
+        return i;
+      }
+    }
   }
 
   render() {
@@ -51,11 +77,12 @@ export default class App extends Component {
             {this.state.data.map((item, index) => {
               return (
                 <ListItem icon>
+                  <CheckBox onPress={this.updateText.bind(this, item.name)} checked={item.status} />
                   <Body>
-                    <Text>{item}</Text>
+                    <Text>{item.name}</Text>
                   </Body>
                   <Right>
-                    <Button onPress={this.deleteText.bind(this, item)} style={{ backgroundColor: 'grey' }} >
+                    <Button onPress={this.deleteText.bind(this, item.name)} style={{ backgroundColor: 'grey' }} >
                       <Icon active name="trash" style={{ color: 'red' }} />
                     </Button>
                   </Right>
