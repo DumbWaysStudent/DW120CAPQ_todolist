@@ -53,6 +53,12 @@ export default class App extends Component {
 
   }
 
+  updateText = (name) => {
+    this.setState({
+      field: name
+    });
+  }
+
   search(nameKey, myArray) {
     for (let i = 0; i < myArray.length; i++) {
       if (myArray[i].name === nameKey) {
@@ -82,6 +88,9 @@ export default class App extends Component {
                     <Text>{item.name}</Text>
                   </Body>
                   <Right>
+                    <Button onPress={this.updateText.bind(this, item.name)}>
+                      <Icon active name="create" style={{ color: 'red' }} />
+                    </Button>
                     <Button onPress={this.deleteText.bind(this, item.name)} style={{ backgroundColor: 'grey' }} >
                       <Icon active name="trash" style={{ color: 'red' }} />
                     </Button>
