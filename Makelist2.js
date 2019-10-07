@@ -15,8 +15,8 @@ export default class Makelist2 extends Component {
     }
 
     insertText = () => {
-        var kata = this.state.field;
-        var data_kata = this.state.data;
+        const kata = this.state.field;
+        const data_kata = this.state.data;
         data_kata.push(kata);
         this.setState({
             data: data_kata,
