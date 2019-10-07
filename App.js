@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, List, ListItem, Text, InputGroup, Input, Button, Icon, Left, Body, Right, CheckBox } from 'native-base';
 export default class App extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -20,7 +19,6 @@ export default class App extends Component {
   insertText = () => {
     const kata = this.state.field;
     const data_kata = this.state.data;
-
 
     if (this.state.edit != "") {
       const id = this.state.edit;
@@ -42,7 +40,6 @@ export default class App extends Component {
       edit: ""
     });
 
-
   }
 
   deleteText = (id) => {
@@ -53,7 +50,6 @@ export default class App extends Component {
     });
   }
   updateChecked = (id) => {
-
 
     const pilihan = this.search(id, this.state.data);
     const aray = this.state.data;
@@ -68,7 +64,6 @@ export default class App extends Component {
       data: aray,
     });
 
-
   }
 
   updateText = (id) => {
@@ -79,7 +74,6 @@ export default class App extends Component {
       edit: id
     });
 
-
   }
 
   search(nameKey, myArray) {
@@ -88,7 +82,6 @@ export default class App extends Component {
         return i;
       }
     }
-
   }
 
   render() {
@@ -96,6 +89,7 @@ export default class App extends Component {
       <Container>
         <Header />
         <Content>
+
           <List>
             <ListItem >
               <InputGroup borderType="regular" >
@@ -126,5 +120,4 @@ export default class App extends Component {
       </Container >
     );
   }
-
 }
