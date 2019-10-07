@@ -15,11 +15,11 @@ export default class App extends Component {
     }
 
     insertText = () => {
-        const kata = this.state.field;
-        const data_kata = this.state.data;
-        data_kata.push(kata);
+        const state_field = this.state.field;
+        const state_data = this.state.data;
+        state_data.push(state_field);
         this.setState({
-            data: data_kata,
+            data: state_data,
             field: "",
         });
     }
@@ -28,7 +28,6 @@ export default class App extends Component {
             <Container>
                 <Header />
                 <Content>
-
                     <List>
                         <ListItem >
                             <InputGroup borderType="regular" >
