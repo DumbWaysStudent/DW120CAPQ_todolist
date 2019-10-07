@@ -11,4 +11,4 @@ import Makelist4 from './Makelist4';
 import Makelist5 from './Makelist5';
 import { name as appName } from './app.json';
 
-AppRegistry.registerComponent(appName, () => App); 
+AppRegistry.registerComponent(appName, () => Makelist5); 

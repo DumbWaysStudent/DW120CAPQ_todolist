@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, List, ListItem, Text, InputGroup, Input, Button, Icon, Left, Body, Right, CheckBox } from 'native-base';
+import { tsThisType } from '@babel/types';
 export default class App extends Component {
     constructor() {
         super();
         this.state = {
             field: "",
             data: [],
+            edit: ""
         };
     }
     setText = (text) => {
@@ -17,15 +19,25 @@ export default class App extends Component {
     insertText = () => {
         const kata = this.state.field;
         const data_kata = this.state.data;
-        const objek = {};
-        objek.name = kata;
-        objek.status = false;
-        data_kata.push(objek);
 
+        if (this.state.edit != "") {
+            const name = this.state.edit;
+            const pilihan = this.search(name, this.state.data);
+            const aray = this.state.data;
+            aray[pilihan].name = this.state.field;
+        } else {
+            const objek = {};
+            objek.name = kata;
+            objek.status = false;
+            data_kata.push(objek);
+
+        }
         this.setState({
             data: data_kata,
             field: "",
+            edit: ""
         });
+
     }
 
     deleteText = (name) => {
@@ -36,7 +48,7 @@ export default class App extends Component {
         });
     }
 
-    updateText = (name) => {
+    updateChecked = (name) => {
 
         const pilihan = this.search(name, this.state.data);
         const aray = this.state.data;
@@ -55,8 +67,10 @@ export default class App extends Component {
 
     updateText = (name) => {
         this.setState({
-            field: name
+            field: name,
+            edit: name
         });
+
     }
 
     search(nameKey, myArray) {
@@ -83,7 +97,7 @@ export default class App extends Component {
                         {this.state.data.map((item, index) => {
                             return (
                                 <ListItem icon>
-                                    <CheckBox onPress={this.updateText.bind(this, item.name)} checked={item.status} />
+                                    <CheckBox onPress={this.updateChecked.bind(this, item.name)} checked={item.status} />
                                     <Body>
                                         <Text>{item.name}</Text>
                                     </Body>
