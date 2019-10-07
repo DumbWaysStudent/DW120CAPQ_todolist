@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, List, ListItem, Text, InputGroup, Input, Button, Icon, Left, Body, Right, CheckBox } from 'native-base';
 import { tsThisType } from '@babel/types';
-export default class App extends Component {
+export default class Makelist5 extends Component {
     constructor() {
         super();
         this.state = {
@@ -9,6 +9,7 @@ export default class App extends Component {
             data: [],
             edit: ""
         };
+        this.hitung = 0;
     }
     setText = (text) => {
         this.setState({
@@ -21,12 +22,14 @@ export default class App extends Component {
         const data_kata = this.state.data;
 
         if (this.state.edit != "") {
-            const name = this.state.edit;
-            const pilihan = this.search(name, this.state.data);
+            const id = this.state.edit;
+            const pilihan = this.search(id, this.state.data);
             const aray = this.state.data;
             aray[pilihan].name = this.state.field;
         } else {
             const objek = {};
+            this.hitung += 1;
+            objek.id = this.hitung;
             objek.name = kata;
             objek.status = false;
             data_kata.push(objek);
@@ -40,17 +43,16 @@ export default class App extends Component {
 
     }
 
-    deleteText = (name) => {
-        const pilihan = this.search(name, this.state.data);
+    deleteText = (id) => {
+        const pilihan = this.search(id, this.state.data);
         this.state.data.splice(pilihan, 1);
         this.setState({
             data: this.state.data,
         });
     }
+    updateChecked = (id) => {
 
-    updateChecked = (name) => {
-
-        const pilihan = this.search(name, this.state.data);
+        const pilihan = this.search(id, this.state.data);
         const aray = this.state.data;
 
         if (aray[pilihan].status == true) {
@@ -65,17 +67,19 @@ export default class App extends Component {
 
     }
 
-    updateText = (name) => {
+    updateText = (id) => {
+        const aray = this.state.data;
+        const pilihan = this.search(id, this.state.data);
         this.setState({
-            field: name,
-            edit: name
+            field: aray[pilihan].name,
+            edit: id
         });
 
     }
 
     search(nameKey, myArray) {
         for (let i = 0; i < myArray.length; i++) {
-            if (myArray[i].name === nameKey) {
+            if (myArray[i].id === nameKey) {
                 return i;
             }
         }
@@ -97,15 +101,15 @@ export default class App extends Component {
                         {this.state.data.map((item, index) => {
                             return (
                                 <ListItem icon>
-                                    <CheckBox onPress={this.updateChecked.bind(this, item.name)} checked={item.status} />
+                                    <CheckBox onPress={this.updateChecked.bind(this, item.id)} checked={item.status} />
                                     <Body>
                                         <Text>{item.name}</Text>
                                     </Body>
                                     <Right>
-                                        <Button onPress={this.updateText.bind(this, item.name)}>
+                                        <Button onPress={this.updateText.bind(this, item.id)}>
                                             <Icon active name="create" style={{ color: 'red' }} />
                                         </Button>
-                                        <Button onPress={this.deleteText.bind(this, item.name)} style={{ backgroundColor: 'grey' }} >
+                                        <Button onPress={this.deleteText.bind(this, item.id)} style={{ backgroundColor: 'grey' }} >
                                             <Icon active name="trash" style={{ color: 'red' }} />
                                         </Button>
                                     </Right>
