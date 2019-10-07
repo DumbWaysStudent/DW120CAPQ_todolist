@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, List, ListItem, Text, InputGroup, Input, Button, Icon, Left, Body, Right } from 'native-base';
+import { Container, Header, Content, List, ListItem, Text, InputGroup, Input, Button, Icon, Left, Body, Right, CheckBox } from 'native-base';
 export default class Makelist3 extends Component {
     constructor() {
         super();
         this.state = {
             field: "",
-            data: [],
+            data: []
         };
+        this.hitung = 0;
     }
     setText = (text) => {
         this.setState({
@@ -17,22 +18,33 @@ export default class Makelist3 extends Component {
     insertText = () => {
         const kata = this.state.field;
         const data_kata = this.state.data;
-        data_kata.push(kata);
+        const objek = {};
+        this.hitung += 1;
+        objek.id = this.hitung;
+        objek.name = kata;
+        objek.status = false;
+        data_kata.push(objek);
+
         this.setState({
             data: data_kata,
             field: "",
         });
     }
 
-    deleteText = (text) => {
-        const data_kata2 = this.state.data;
-        while (data_kata2.indexOf(text) !== -1) {
-            data_kata2.splice(data_kata2.indexOf(text), 1);
-        }
+    deleteText = (id) => {
+        const pilihan = this.search(id, this.state.data);
+        this.state.data.splice(pilihan, 1);
         this.setState({
-            data: data_kata2,
-            field: "",
+            data: this.state.data,
         });
+    }
+
+    search(nameKey, myArray) {
+        for (let i = 0; i < myArray.length; i++) {
+            if (myArray[i].id === nameKey) {
+                return i;
+            }
+        }
     }
 
     render() {
@@ -52,10 +64,10 @@ export default class Makelist3 extends Component {
                             return (
                                 <ListItem icon>
                                     <Body>
-                                        <Text>{item}</Text>
+                                        <Text>{item.name}</Text>
                                     </Body>
                                     <Right>
-                                        <Button onPress={this.deleteText.bind(this, item)} style={{ backgroundColor: 'grey' }} >
+                                        <Button onPress={this.deleteText.bind(this, item.id)} style={{ backgroundColor: 'grey' }} >
                                             <Icon active name="trash" style={{ color: 'red' }} />
                                         </Button>
                                     </Right>
@@ -67,4 +79,4 @@ export default class Makelist3 extends Component {
             </Container >
         );
     }
-}
+} 
