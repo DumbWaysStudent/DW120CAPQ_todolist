@@ -8,49 +8,45 @@ export default class App extends Component {
             data: [],
             edit: ""
         };
-        this.hitung = 0;
+        this.count = 0;
     }
     setText = (text) => {
         this.setState({
             field: text
         })
     }
-
     insertText = () => {
-        const kata = this.state.field;
-        const data_kata = this.state.data;
+        const state_field = this.state.field;
+        const state_data = this.state.data;
 
         if (this.state.edit != "") {
             const id = this.state.edit;
-            const pilihan = this.search(id, this.state.data);
-            const aray = this.state.data;
-            aray[pilihan].name = this.state.field;
+            const index = this.search(id, this.state.data);
+            const state_data = this.state.data;
+            state_data[index].name = this.state.field;
         } else {
-            const objek = {};
-            this.hitung += 1;
-            objek.id = this.hitung;
-            objek.name = kata;
-            objek.status = false;
-            data_kata.push(objek);
+            const object = {};
+            this.count += 1;
+            object.id = this.count;
+            object.name = state_field;
+            object.status = false;
+            state_data.push(object);
 
         }
         this.setState({
-            data: data_kata,
+            data: state_data,
             field: "",
             edit: ""
         });
-
     }
-
     deleteText = (id) => {
-        const pilihan = this.search(id, this.state.data);
-        this.state.data.splice(pilihan, 1);
+        const index = this.search(id, this.state.data);
+        this.state.data.splice(index, 1);
         this.setState({
             data: this.state.data,
         });
     }
     updateChecked = (id) => {
-
         const pilihan = this.search(id, this.state.data);
         const aray = this.state.data;
 
@@ -65,17 +61,15 @@ export default class App extends Component {
         });
 
     }
-
     updateText = (id) => {
-        const aray = this.state.data;
-        const pilihan = this.search(id, this.state.data);
+        const state_data = this.state.data;
+        const index = this.search(id, this.state.data);
         this.setState({
-            field: aray[pilihan].name,
+            field: state_data[index].name,
             edit: id
         });
 
     }
-
     search(nameKey, myArray) {
         for (let i = 0; i < myArray.length; i++) {
             if (myArray[i].id === nameKey) {
@@ -102,13 +96,13 @@ export default class App extends Component {
                                 <ListItem icon>
                                     <CheckBox onPress={this.updateChecked.bind(this, item.id)} checked={item.status} />
                                     <Body>
-                                        <Text>{item.name}</Text>
+                                        <Text style={{ marginLeft: 3 }}>{item.name}</Text>
                                     </Body>
                                     <Right>
-                                        <Button onPress={this.updateText.bind(this, item.id)}>
-                                            <Icon active name="create" style={{ color: 'red' }} />
+                                        <Button onPress={this.updateText.bind(this, item.id)} style={{ backgroundColor: 'white', borderRightWidth: 1, borderTopWidth: 0.5, borderBottomWidth: 1, borderColor: '#d6d7da', }}>
+                                            <Icon active name="create" style={{ color: 'blue' }} />
                                         </Button>
-                                        <Button onPress={this.deleteText.bind(this, item.id)} style={{ backgroundColor: 'grey' }} >
+                                        <Button onPress={this.deleteText.bind(this, item.id)} style={{ backgroundColor: 'white', borderTopWidth: 0.5, borderBottomWidth: 1, borderColor: '#d6d7da', }} >
                                             <Icon active name="trash" style={{ color: 'red' }} />
                                         </Button>
                                     </Right>
