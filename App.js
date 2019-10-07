@@ -7,51 +7,47 @@ export default class App extends Component {
             field: "",
             data: [],
         };
-        this.hitung = 0;
+        this.count = 0;
     }
     setText = (text) => {
         this.setState({
             field: text
         })
     }
-
     insertText = () => {
-        const kata = this.state.field;
-        const data_kata = this.state.data;
-        const objek = {};
-        this.hitung += 1;
-        objek.id = this.hitung;
-        objek.name = kata;
-        objek.status = false;
-        data_kata.push(objek);
+        const state_field = this.state.field;
+        const state_data = this.state.data;
+        const object = {};
+        this.count += 1;
+        object.id = this.count;
+        object.name = state_field;
+        object.status = false;
+        state_data.push(object);
 
         this.setState({
-            data: data_kata,
+            data: state_data,
             field: "",
         });
     }
-
     deleteText = (id) => {
-        const pilihan = this.search(id, this.state.data);
-        this.state.data.splice(pilihan, 1);
+        const index = this.search(id, this.state.data);
+        this.state.data.splice(index, 1);
         this.setState({
             data: this.state.data,
         });
     }
-
     updateText = (id) => {
+        const index = this.search(id, this.state.data);
+        const state_data = this.state.data;
 
-        const pilihan = this.search(id, this.state.data);
-        const aray = this.state.data;
-
-        if (aray[pilihan].status == true) {
-            aray[pilihan].status = false;
+        if (state_data[index].status == true) {
+            state_data[index].status = false;
         } else {
-            aray[pilihan].status = true;
+            state_data[index].status = true;
         }
 
         this.setState({
-            data: aray,
+            data: state_data,
         });
 
     }
@@ -69,7 +65,6 @@ export default class App extends Component {
             <Container>
                 <Header />
                 <Content>
-
                     <List>
                         <ListItem >
                             <InputGroup borderType="regular" >
@@ -82,10 +77,10 @@ export default class App extends Component {
                                 <ListItem icon>
                                     <CheckBox onPress={this.updateText.bind(this, item.id)} checked={item.status} />
                                     <Body>
-                                        <Text>{item.name}</Text>
+                                        <Text style={{ marginLeft: 3 }}>{item.name}</Text>
                                     </Body>
                                     <Right>
-                                        <Button onPress={this.deleteText.bind(this, item.id)} style={{ backgroundColor: 'grey' }} >
+                                        <Button onPress={this.deleteText.bind(this, item.id)} style={{ backgroundColor: 'white', borderTopWidth: 0.5, borderBottomWidth: 1, borderColor: '#d6d7da', }} >
                                             <Icon active name="trash" style={{ color: 'red' }} />
                                         </Button>
                                     </Right>
@@ -97,4 +92,4 @@ export default class App extends Component {
             </Container >
         );
     }
-}
+} 
